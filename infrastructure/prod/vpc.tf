@@ -1,0 +1,1 @@
+resource "aws_default_vpc" "openapi_document_generator" {}
