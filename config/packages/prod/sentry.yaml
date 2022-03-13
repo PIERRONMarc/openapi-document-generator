@@ -1,0 +1,13 @@
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+        traces_sample_rate: 0.2
+        attach_stacktrace: true
+        max_breadcrumbs: 50
+        environment: '%kernel.environment%'
+        in_app_exclude:
+            - '%kernel.build_dir%'
+            - '%kernel.cache_dir%'
+            - '%kernel.project_dir%/vendor'
+    tracing:
+        enabled: true

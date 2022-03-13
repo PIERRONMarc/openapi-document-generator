@@ -53,3 +53,8 @@ variable "db_password" {
   description = "Password for the master DB user"
   sensitive   = true
 }
+
+variable "sentry_dsn" {
+  type = string
+  sensitive   = true
+}
