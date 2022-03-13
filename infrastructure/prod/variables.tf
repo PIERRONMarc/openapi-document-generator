@@ -16,25 +16,30 @@ variable "app_env" {
 }
 variable "database_url" {
   type = string
+  sensitive   = true
 }
 
 variable "sqs_transport_dsn" {
   type = string
+  sensitive   = true
 }
 
 variable "sqs_dlq_transport_dsn" {
   type        = string
   description = "DSN of the failed queue"
+  sensitive   = true
 }
 
 variable "s3_key" {
   type        = string
   description = "Key of IAM user"
+  sensitive   = true
 }
 
 variable "s3_secret" {
   type        = string
   description = "Private key of IAM user"
+  sensitive   = true
 }
 
 variable "s3_version" {
