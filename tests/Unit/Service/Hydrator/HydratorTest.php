@@ -9,14 +9,14 @@ class HydratorTest extends TestCase
 {
     private Hydrator $hydrator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->hydrator = new Hydrator();
     }
 
     private function getObjectToHydrate(): object
     {
-        return new Class() {
+        return new class() {
             private ?string $title = null;
 
             public function getTitle(): ?string
@@ -27,6 +27,7 @@ class HydratorTest extends TestCase
             public function setTitle(?string $title): self
             {
                 $this->title = $title;
+
                 return $this;
             }
         };
@@ -35,7 +36,7 @@ class HydratorTest extends TestCase
     public function testHydrationFromObject(): void
     {
         $hydrator = new Hydrator();
-        $object = new Class() {
+        $object = new class() {
             private ?string $title = 'Pet Store';
 
             public function getTitle(): ?string
@@ -46,6 +47,7 @@ class HydratorTest extends TestCase
             public function setTitle(?string $title): self
             {
                 $this->title = $title;
+
                 return $this;
             }
         };
@@ -55,11 +57,11 @@ class HydratorTest extends TestCase
     }
 
     /**
-     * Hydrator must do nothing when a TypeError exception is triggered
+     * Hydrator must do nothing when a TypeError exception is triggered.
      */
-    public function testWrongType()
+    public function testWrongType(): void
     {
-        $object = new Class() {
+        $object = new class() {
             private array $title = [0, 1];
 
             public function getTitle(): array
@@ -70,6 +72,7 @@ class HydratorTest extends TestCase
             public function setTitle(int $title): self
             {
                 $this->title = $title;
+
                 return $this;
             }
         };
@@ -79,24 +82,25 @@ class HydratorTest extends TestCase
     }
 
     /**
-     * Test that no exception is thrown
+     * Test that no exception is thrown.
      */
     public function testUndefinedGetter(): void
     {
         $this->expectNotToPerformAssertions();
-        $object = new Class() {
+        $object = new class() {
             private string $title = 'lorem';
 
             public function setTitle(string $title): self
             {
                 $this->title = $title;
+
                 return $this;
             }
         };
         $this->hydrator->hydrateFromObject($object, $this->getObjectToHydrate());
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($this->hydrator);
     }

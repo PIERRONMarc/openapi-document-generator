@@ -29,9 +29,10 @@ class Path
         return $this->pathItems;
     }
 
-    public function addPathItem(PathItem $pathItem): Path
+    public function addPathItem(PathItem $pathItem): self
     {
-        array_push($this->pathItems, $pathItem);
+        $this->pathItems[] = $pathItem;
+
         return $this;
     }
 
@@ -40,12 +41,16 @@ class Path
         return $this->endpoint;
     }
 
-    public function setEndpoint(string $endpoint): Path
+    public function setEndpoint(string $endpoint): self
     {
         $this->endpoint = $endpoint;
+
         return $this;
     }
 
+    /**
+     * @return iterable<Parameter>|null
+     */
     public function getParameters(): ?iterable
     {
         return $this->parameters;
@@ -53,11 +58,12 @@ class Path
 
     public function addParameter(Parameter $parameter): self
     {
-        if ($this->parameters === null) {
+        if (null === $this->parameters) {
             $this->parameters = [];
         }
 
-        array_push($this->parameters, $parameter);
+        $this->parameters[] = $parameter;
+
         return $this;
     }
 }

@@ -20,9 +20,10 @@ class Info
         return $this->title;
     }
 
-    public function setTitle(string $title): Info
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -31,9 +32,10 @@ class Info
         return $this->description;
     }
 
-    public function setDescription(?string $description): Info
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -45,6 +47,7 @@ class Info
     public function setVersion(string $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 }

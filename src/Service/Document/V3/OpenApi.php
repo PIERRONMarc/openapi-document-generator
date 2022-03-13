@@ -3,6 +3,7 @@
 namespace App\Service\Document\V3;
 
 use App\Service\Document\AbstractDocument;
+use Closure;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -36,9 +37,10 @@ class OpenApi extends AbstractDocument
         return $this->info;
     }
 
-    public function setInfo(Info $info): OpenApi
+    public function setInfo(Info $info): self
     {
         $this->info = $info;
+
         return $this;
     }
 
@@ -52,13 +54,16 @@ class OpenApi extends AbstractDocument
 
     public function addPath(Path $path): self
     {
-        array_push($this->paths, $path);
+        $this->paths[] = $path;
 
         return $this;
     }
 
+    /**
+     * @return Closure[]
+     */
     #[Ignore]
-    final function getNormalizerCallbacks(): array
+    final public function getNormalizerCallbacks(): array
     {
         $paths = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
             $serializedFields = [];
@@ -66,10 +71,11 @@ class OpenApi extends AbstractDocument
                 if ($path->getParameters()) {
                     $serializedFields[$path->getEndpoint()]['parameters'] = $path->getParameters();
                 }
-                foreach($path->getPathItems() as $pathItem) {
+                foreach ($path->getPathItems() as $pathItem) {
                     $serializedFields[$path->getEndpoint()][$pathItem->getHttpMethod()] = $pathItem;
                 }
             }
+
             return $serializedFields;
         };
 
@@ -78,16 +84,19 @@ class OpenApi extends AbstractDocument
             foreach ($innerObject as $response) {
                 $serializedFields[$response->getHttpStatusCode()] = $response;
             }
+
             return $serializedFields;
         };
 
-
         return [
             'paths' => $paths,
-            'responses' => $responses
+            'responses' => $responses,
         ];
     }
 
+    /**
+     * @return iterable<Tag>|null
+     */
     public function getTags(): iterable|null
     {
         return $this->tags;
@@ -95,12 +104,12 @@ class OpenApi extends AbstractDocument
 
     public function addTag(Tag $tag): self
     {
-        if ($this->tags === null) {
+        if (null === $this->tags) {
             $this->tags = [];
         }
 
-        array_push($this->tags, $tag);
+        $this->tags[] = $tag;
+
         return $this;
     }
-
 }

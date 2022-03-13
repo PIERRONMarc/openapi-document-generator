@@ -18,17 +18,27 @@ class Parameter
     #[SerializedName('required')]
     private bool $required;
 
+    /**
+     * @var array<mixed>
+     */
     #[SerializedName('schema')]
     private array $schema;
 
+    /**
+     * @return mixed[]
+     */
     public function getSchema(): array
     {
         return $this->schema;
     }
 
+    /**
+     * @param mixed[] $schema
+     */
     public function setSchema(array $schema): self
     {
         $this->schema = $schema;
+
         return $this;
     }
 
@@ -40,6 +50,7 @@ class Parameter
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -51,6 +62,7 @@ class Parameter
     public function setLocation(string $location): self
     {
         $this->location = $location;
+
         return $this;
     }
 
@@ -62,6 +74,7 @@ class Parameter
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -73,6 +86,7 @@ class Parameter
     public function setRequired(bool $required): self
     {
         $this->required = $required;
+
         return $this;
     }
 }

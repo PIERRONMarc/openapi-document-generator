@@ -19,10 +19,9 @@ class CreateOpenaApiDocumentHandler implements MessageHandlerInterface
         $this->generator = $generator;
     }
 
-    public function __invoke(CreateOpenApiDocument $message)
+    public function __invoke(CreateOpenApiDocument $message): void
     {
         $document = $this->generator->generate($message->getDocumentId());
-        $this->filesystem->write('document/' .$document->getId() . '.json', $document->toJson(), true);
+        $this->filesystem->write('document/'.$document->getId().'.json', $document->toJson(), true);
     }
 }
-

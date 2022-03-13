@@ -11,7 +11,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $loader = new \Nelmio\Alice\Loader\NativeLoader();
-        $objectSet = $loader->loadFile(__DIR__ . '/TestFixtures.yaml')->getObjects();
+        $objectSet = $loader->loadFile(__DIR__.'/TestFixtures.yaml')->getObjects();
         foreach ($objectSet as $object) {
             $manager->persist($object);
         }

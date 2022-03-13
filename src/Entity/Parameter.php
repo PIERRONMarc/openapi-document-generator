@@ -28,12 +28,15 @@ class Parameter
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name;
 
+    /**
+     * @var array<mixed>
+     */
     #[ORM\Column(type: 'json')]
     private array $parameterSchema = [];
 
     #[ORM\ManyToOne(targetEntity: PathItem::class, inversedBy: 'parameters')]
     #[ORM\JoinColumn(nullable: false)]
-    private $pathItem;
+    private PathItem $pathItem;
 
     public function getId(): ?int
     {
@@ -100,11 +103,17 @@ class Parameter
         return $this;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     public function getParameterSchema(): ?array
     {
         return $this->parameterSchema;
     }
 
+    /**
+     * @param mixed[] $parameterSchema
+     */
     public function setParameterSchema(array $parameterSchema): self
     {
         $this->parameterSchema = $parameterSchema;

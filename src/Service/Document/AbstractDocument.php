@@ -2,6 +2,7 @@
 
 namespace App\Service\Document;
 
+use Closure;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
@@ -30,22 +31,23 @@ abstract class AbstractDocument
     }
 
     /**
-     * Generate the document in JSON format
+     * Generate the document in JSON format.
      */
     public function toJson(): string
     {
         return $this->serializer->serialize($this, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
-            JsonEncode::OPTIONS => JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+            JsonEncode::OPTIONS => \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT,
         ]);
     }
 
     /**
-     * Generate the document in YAML format
+     * Generate the document in YAML format.
      */
     public function toYaml(): string
     {
         $flags = Yaml::DUMP_OBJECT_AS_MAP ^ Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE;
+
         return Yaml::dump(json_decode($this->toJson(), true), 10, 2, $flags);
     }
 
@@ -67,18 +69,21 @@ abstract class AbstractDocument
                     null,
                     null,
                     $defaultContext
-                )
+                ),
             ],
             [
-                'json' => new JsonEncoder()
+                'json' => new JsonEncoder(),
             ]
         );
     }
 
+    /**
+     * @return array<Closure>
+     */
     #[Ignore]
     protected function getNormalizerCallbacks(): array
     {
-       return [];
+        return [];
     }
 
     #[Ignore]
@@ -90,6 +95,7 @@ abstract class AbstractDocument
     public function setId(string $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 }

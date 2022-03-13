@@ -12,7 +12,7 @@ class OpenApiBuilderObject
     private ?iterable $tags = null;
 
     /**
-     * @var iterable<PathItemBuilderObject>
+     * @var iterable<PathBuilderObject>
      */
     private iterable $paths = [];
 
@@ -24,9 +24,13 @@ class OpenApiBuilderObject
     public function setInfo(InfoBuilderObject $info): self
     {
         $this->info = $info;
+
         return $this;
     }
 
+    /**
+     * @return iterable<TagBuilderObject>|null
+     */
     public function getTags(): iterable|null
     {
         return $this->tags;
@@ -34,14 +38,18 @@ class OpenApiBuilderObject
 
     public function addTag(TagBuilderObject $tag): self
     {
-        if ($this->tags === null) {
+        if (null === $this->tags) {
             $this->tags = [];
         }
 
-        array_push($this->tags ,$tag);
+        $this->tags[] = $tag;
+
         return $this;
     }
 
+    /**
+     * @return iterable<PathBuilderObject>
+     */
     public function getPaths(): iterable
     {
         return $this->paths;
@@ -49,7 +57,8 @@ class OpenApiBuilderObject
 
     public function addPath(PathBuilderObject $path): self
     {
-        array_push($this->paths ,$path);
+        $this->paths[] = $path;
+
         return $this;
     }
 }

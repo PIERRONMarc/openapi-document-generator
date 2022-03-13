@@ -21,15 +21,16 @@ class PathBuilderObject
         return $this->endpoint;
     }
 
-    public function setEndpoint(string $endpoint): PathBuilderObject
+    public function setEndpoint(string $endpoint): self
     {
         $this->endpoint = $endpoint;
+
         return $this;
     }
 
     public function addPathItem(PathItemBuilderObject $pathItem): self
     {
-        array_push($this->pathItems, $pathItem);
+        $this->pathItems[] = $pathItem;
 
         return $this;
     }
@@ -42,6 +43,9 @@ class PathBuilderObject
         return $this->pathItems;
     }
 
+    /**
+     * @return iterable<ParameterBuilderObject>
+     */
     public function getParameters(): iterable
     {
         return $this->parameters;
@@ -49,7 +53,8 @@ class PathBuilderObject
 
     public function addParameter(ParameterBuilderObject $parameter): self
     {
-        array_push($this->parameters, $parameter);
+        $this->parameters[] = $parameter;
+
         return $this;
     }
 }

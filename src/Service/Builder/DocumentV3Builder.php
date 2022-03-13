@@ -2,14 +2,23 @@
 
 namespace App\Service\Builder;
 
+use App\Service\Builder\BuilderObject\OpenApiBuilderObject;
+use App\Service\Builder\BuilderObject\PathBuilderObject;
+use App\Service\Builder\BuilderObject\PathItemBuilderObject;
 use App\Service\Document\AbstractDocument;
-use App\Service\Document\V3\{Info, Parameter, Path, PathItem, RequestBody, Response, Tag, OpenApi};
-use App\Service\Builder\BuilderObject\{OpenApiBuilderObject, PathBuilderObject, PathItemBuilderObject};
+use App\Service\Document\V3\Info;
+use App\Service\Document\V3\OpenApi;
+use App\Service\Document\V3\Parameter;
+use App\Service\Document\V3\Path;
+use App\Service\Document\V3\PathItem;
+use App\Service\Document\V3\RequestBody;
+use App\Service\Document\V3\Response;
+use App\Service\Document\V3\Tag;
 use App\Service\Hydrator\HydratorInterface;
 
 class DocumentV3Builder implements BuilderInterface
 {
-    private AbstractDocument $document;
+    private OpenApi $document;
 
     private HydratorInterface $hydrator;
 
@@ -20,10 +29,13 @@ class DocumentV3Builder implements BuilderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function buildDocument(OpenApiBuilderObject $openApiBuilderObject): AbstractDocument
     {
+        /**
+         * @var Info
+         */
         $info = $this->hydrator->hydrateFromObject($openApiBuilderObject->getInfo(), new Info());
         $this->document->setInfo($info);
 
@@ -58,8 +70,12 @@ class DocumentV3Builder implements BuilderInterface
 
     private function buildPathItem(PathItemBuilderObject $pathItemBuilderObject): PathItem
     {
+        /**
+         * @var PathItem
+         */
         $pathItem = $this->hydrator->hydrateFromObject($pathItemBuilderObject, new PathItem());
         foreach ($pathItemBuilderObject->getTags() as $tag) {
+            /* @phpstan-ignore-next-line */
             $pathItem->addTag($tag);
         }
 

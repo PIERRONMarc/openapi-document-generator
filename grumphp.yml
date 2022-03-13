@@ -11,7 +11,16 @@ grumphp:
       triggered_by: ['php']
     phpcpd:
       directory: ['.']
-      exclude: ['vendor', 'var', 'public', 'config', 'bin', 'translations', 'migrations']
+      exclude: [
+          'vendor',
+          'var',
+          'public',
+          'config',
+          'bin',
+          'translations',
+          'migrations',
+          'src/Service/Builder/BuilderObject/ParameterBuilderObject.php'
+      ]
       fuzzy: false
       min_lines: 5
       min_tokens: 70
@@ -22,3 +31,6 @@ grumphp:
       triggered_by: ['php']
       memory_limit: "-1"
       use_grumphp_paths: true
+      ignore_patterns: [
+        'tests/Unit/Service/Hydrator/HydratorTest.php'
+      ]

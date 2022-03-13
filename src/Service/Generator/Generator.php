@@ -3,7 +3,6 @@
 namespace App\Service\Generator;
 
 use App\Entity\OpenApiDocument;
-use App\Service\Document\AbstractDocument;
 use App\Entity\Path;
 use App\Entity\PathItem;
 use App\Repository\OpenApiDocumentRepository;
@@ -16,6 +15,7 @@ use App\Service\Builder\BuilderObject\PathItemBuilderObject;
 use App\Service\Builder\BuilderObject\RequestBodyBuilderObject;
 use App\Service\Builder\BuilderObject\ResponseBuilderObject;
 use App\Service\Builder\BuilderObject\TagBuilderObject;
+use App\Service\Document\AbstractDocument;
 use App\Service\Hydrator\HydratorInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
@@ -38,21 +38,21 @@ class Generator implements GeneratorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function generate(string $openApiDocumentId): AbstractDocument
     {
         $openApiDocumentEntity = $this->openApiDocumentRepository->findOneBy(['id' => $openApiDocumentId]);
 
         if (null === $openApiDocumentEntity) {
-            throw new UnrecoverableMessageHandlingException("Document not found in database");
+            throw new UnrecoverableMessageHandlingException('Document not found in database');
         }
 
         return $this->buildDocument($openApiDocumentEntity);
     }
 
     /**
-     * Initialize an OpenApiBuilderObject from an OpenApiDocument entity and build the document
+     * Initialize an OpenApiBuilderObject from an OpenApiDocument entity and build the document.
      */
     public function buildDocument(OpenApiDocument $openApiDocumentEntity): AbstractDocument
     {
@@ -72,6 +72,7 @@ class Generator implements GeneratorInterface
 
         $document = $this->builder->buildDocument($openApiObjectBuilder);
         $document->setId($openApiDocumentEntity->getId());
+
         return $document;
     }
 

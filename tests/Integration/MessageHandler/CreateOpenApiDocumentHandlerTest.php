@@ -17,16 +17,16 @@ class CreateOpenApiDocumentHandlerTest extends WebTestCase
     private EntityManagerInterface $entityManager;
 
     /**
-     * directory that holds test generated openapi document
+     * directory that holds test generated openapi document.
      */
     private string $directory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
         $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
         $this->bus = static::getContainer()->get(MessageBusInterface::class);
-        $this->directory = static::getContainer()->get(KernelInterface::class)->getProjectDir() . '/var/tests';
+        $this->directory = static::getContainer()->get(KernelInterface::class)->getProjectDir().'/var/tests';
         if (!file_exists($this->directory)) {
             mkdir($this->directory);
         }
@@ -38,13 +38,14 @@ class CreateOpenApiDocumentHandlerTest extends WebTestCase
         $this->bus->dispatch(new CreateOpenApiDocument($openApiDocument->getId()));
 
         $this->assertJsonFileEqualsJsonFile(
-            $this->directory . '/../../tests/Fixtures/openapi.json',
-            $this->directory . '/document/' . $openApiDocument->getId() . '.json'
+            $this->directory.'/../../tests/Fixtures/openapi.json',
+            $this->directory.'/document/'.$openApiDocument->getId().'.json'
         );
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
+        parent::tearDown();
         $filesystem = static::getContainer()->get(Filesystem::class);
 
         foreach ($filesystem->keys() as $key) {

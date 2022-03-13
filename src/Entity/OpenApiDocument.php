@@ -14,7 +14,7 @@ class OpenApiDocument
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class:UuidGenerator::class)]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -30,7 +30,7 @@ class OpenApiDocument
     private Collection $tags;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $version;
+    private ?string $version = null;
 
     public function __construct()
     {
@@ -46,6 +46,7 @@ class OpenApiDocument
     public function setId(?string $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 

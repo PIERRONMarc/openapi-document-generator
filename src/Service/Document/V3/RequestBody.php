@@ -6,23 +6,33 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class RequestBody
 {
-    #[SerializedName("content")]
+    /**
+     * @var array<mixed>|null
+     */
+    #[SerializedName('content')]
     private ?array $content = null;
 
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private ?string $description = null;
 
-    #[SerializedName("required")]
+    #[SerializedName('required')]
     private ?bool $required = null;
 
+    /**
+     * @return mixed[]|null
+     */
     public function getContent(): ?array
     {
         return $this->content;
     }
 
+    /**
+     * @param mixed[]|null $content
+     */
     public function setContent(?array $content): self
     {
         $this->content['application/json']['schema'] = $content;
+
         return $this;
     }
 
@@ -34,6 +44,7 @@ class RequestBody
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -45,6 +56,7 @@ class RequestBody
     public function setRequired(?bool $required): self
     {
         $this->required = $required;
+
         return $this;
     }
 }

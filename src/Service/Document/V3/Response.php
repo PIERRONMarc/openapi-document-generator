@@ -24,9 +24,10 @@ class Response
         return $this->httpStatusCode;
     }
 
-    public function setHttpStatusCode(int $httpStatusCode): Response
+    public function setHttpStatusCode(int $httpStatusCode): self
     {
         $this->httpStatusCode = $httpStatusCode;
+
         return $this;
     }
 
@@ -35,20 +36,28 @@ class Response
         return $this->description;
     }
 
-    public function setDescription(?string $description): Response
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     public function getContent(): ?array
     {
         return $this->content;
     }
 
-    public function setContent(?array $content): Response
+    /**
+     * @param mixed[]|null $content
+     */
+    public function setContent(?array $content): self
     {
         $this->content['application/json']['schema'] = $content;
+
         return $this;
     }
 }

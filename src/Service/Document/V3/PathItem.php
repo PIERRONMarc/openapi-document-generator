@@ -10,6 +10,9 @@ class PathItem
     #[Ignore]
     private string $httpMethod;
 
+    /**
+     * @var iterable<Tag>|null
+     */
     #[SerializedName('tags')]
     private ?iterable $tags = null;
 
@@ -38,9 +41,10 @@ class PathItem
         return $this->description;
     }
 
-    public function setDescription(?string $description): PathItem
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -49,9 +53,10 @@ class PathItem
         return $this->summary;
     }
 
-    public function setSummary(?string $summary): PathItem
+    public function setSummary(?string $summary): self
     {
         $this->summary = $summary;
+
         return $this;
     }
 
@@ -60,12 +65,16 @@ class PathItem
         return $this->httpMethod;
     }
 
-    public function setHttpMethod(string $httpMethod): PathItem
+    public function setHttpMethod(string $httpMethod): self
     {
         $this->httpMethod = $httpMethod;
+
         return $this;
     }
 
+    /**
+     * @return iterable<Response>
+     */
     public function getResponses(): iterable
     {
         return $this->responses;
@@ -73,8 +82,9 @@ class PathItem
 
     public function addResponse(Response $response): self
     {
-       array_push($this->responses, $response);
-       return $this;
+        $this->responses[] = $response;
+
+        return $this;
     }
 
     public function getRequestBody(): ?RequestBody
@@ -85,9 +95,13 @@ class PathItem
     public function setRequestBody(?RequestBody $requestBody): self
     {
         $this->requestBody = $requestBody;
+
         return $this;
     }
 
+    /**
+     * @return iterable<Tag>|null
+     */
     public function getTags(): ?iterable
     {
         return $this->tags;
@@ -95,14 +109,18 @@ class PathItem
 
     public function addTag(string $tag): self
     {
-        if ($this->tags === null) {
+        if (null === $this->tags) {
             $this->tags = [];
         }
 
-        array_push($this->tags, $tag);
+        $this->tags[] = $tag;
+
         return $this;
     }
 
+    /**
+     * @return iterable<Parameter>|null
+     */
     public function getParameters(): ?iterable
     {
         return $this->parameters;
@@ -110,11 +128,12 @@ class PathItem
 
     public function addParameter(Parameter $parameter): self
     {
-        if ($this->parameters === null) {
+        if (null === $this->parameters) {
             $this->parameters = [];
         }
 
-        array_push($this->parameters, $parameter);
+        $this->parameters[] = $parameter;
+
         return $this;
     }
 }

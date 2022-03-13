@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Messenger;
+
 use App\Messenger\Message\CreateOpenApiDocument;
 use Exception;
 use Symfony\Component\Messenger\Envelope;
@@ -8,6 +9,9 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 class ExternalJsonMessageSerializer implements SerializerInterface
 {
+    /**
+     * @param mixed[] $encodedEnvelope
+     */
     public function decode(array $encodedEnvelope): Envelope
     {
         $body = $encodedEnvelope['body'];
@@ -19,6 +23,8 @@ class ExternalJsonMessageSerializer implements SerializerInterface
 
     /**
      * @throws Exception
+     *
+     * @return mixed[]
      */
     public function encode(Envelope $envelope): array
     {

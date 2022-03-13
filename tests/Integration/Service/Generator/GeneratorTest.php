@@ -10,7 +10,7 @@ class GeneratorTest extends KernelTestCase
 {
     private GeneratorInterface $generator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
         $this->generator = static::getContainer()->get(Generator::class);
@@ -22,8 +22,9 @@ class GeneratorTest extends KernelTestCase
         $this->generator->generate('96a02a37-acd5-44fc-abcb-a8c1a9cacb21');
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
+        parent::tearDown();
         unset($this->generator);
     }
 }

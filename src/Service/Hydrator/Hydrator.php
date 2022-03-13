@@ -19,7 +19,6 @@ class Hydrator implements HydratorInterface
                 try {
                     $objectToHydrate->$setter($object->$getter());
                 } catch (\TypeError $e) {
-
                 }
             }
         }

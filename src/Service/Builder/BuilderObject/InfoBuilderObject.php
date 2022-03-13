@@ -15,9 +15,10 @@ class InfoBuilderObject
         return $this->title;
     }
 
-    public function setTitle(string $title): InfoBuilderObject
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -26,9 +27,10 @@ class InfoBuilderObject
         return $this->description;
     }
 
-    public function setDescription(?string $description): InfoBuilderObject
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -40,6 +42,7 @@ class InfoBuilderObject
     public function setVersion(string $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 }

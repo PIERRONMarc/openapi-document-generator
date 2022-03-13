@@ -18,9 +18,10 @@ class ResponseBuilderObject
         return $this->httpStatusCode;
     }
 
-    public function setHttpStatusCode(int $httpStatusCode): ResponseBuilderObject
+    public function setHttpStatusCode(int $httpStatusCode): self
     {
         $this->httpStatusCode = $httpStatusCode;
+
         return $this;
     }
 
@@ -29,20 +30,28 @@ class ResponseBuilderObject
         return $this->description;
     }
 
-    public function setDescription(?string $description): ResponseBuilderObject
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     public function getContent(): ?array
     {
         return $this->content;
     }
 
-    public function setContent(?array $content): ResponseBuilderObject
+    /**
+     * @param mixed[]|null $content
+     */
+    public function setContent(?array $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 }

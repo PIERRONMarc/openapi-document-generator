@@ -10,7 +10,7 @@ class OpenApiTest extends TestCase
 {
     private AbstractDocument $openApi;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->openApi = new OpenApi();
     }
@@ -23,7 +23,7 @@ class OpenApiTest extends TestCase
         $this->assertEquals('b842cac0-cbe1-401e-b4bc-97b39c97cc1d', $this->openApi->getId());
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($this->openApi);
     }

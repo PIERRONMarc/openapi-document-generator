@@ -2,17 +2,17 @@
 
 namespace App\Tests\Unit\Service;
 
-use App\Service\Document\V3\OpenApi;
 use App\Service\Builder\BuilderInterface;
+use App\Service\Builder\BuilderObject\InfoBuilderObject;
 use App\Service\Builder\BuilderObject\OpenApiBuilderObject;
 use App\Service\Builder\BuilderObject\ParameterBuilderObject;
+use App\Service\Builder\BuilderObject\PathBuilderObject;
+use App\Service\Builder\BuilderObject\PathItemBuilderObject;
 use App\Service\Builder\BuilderObject\RequestBodyBuilderObject;
 use App\Service\Builder\BuilderObject\ResponseBuilderObject;
 use App\Service\Builder\BuilderObject\TagBuilderObject;
 use App\Service\Builder\DocumentV3Builder;
-use App\Service\Builder\BuilderObject\InfoBuilderObject;
-use App\Service\Builder\BuilderObject\PathBuilderObject;
-use App\Service\Builder\BuilderObject\PathItemBuilderObject;
+use App\Service\Document\V3\OpenApi;
 use App\Service\Hydrator\Hydrator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -26,6 +26,7 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
     {
         $this->builder = new DocumentV3Builder(new Hydrator());
         $openApiBuilderObject = $this->createOpenApiBuilderObject();
+        /* @phpstan-ignore-next-line */
         $this->document = $this->builder->buildDocument($openApiBuilderObject);
 
         $this->assertBuildInfo();
@@ -60,7 +61,7 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
     public function assertBuildRequestBody(): void
     {
         $this->assertEquals('Pet object that needs to be added to the store', $this->document->getPaths()[0]->getPathItems()[0]->getRequestBody()->getDescription());
-        $this->assertEquals(true, $this->document->getPaths()[0]->getPathItems()[0]->getRequestBody()->getRequired());
+        $this->assertTrue($this->document->getPaths()[0]->getPathItems()[0]->getRequestBody()->getRequired());
     }
 
     public function assertBuildResponse(): void
@@ -71,9 +72,9 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
             'application/json' => [
                 'schema' => [
                     'id' => 0,
-                    'name' => 'doggie'
-                ]
-            ]
+                    'name' => 'doggie',
+                ],
+            ],
         ], $this->document->getPaths()[0]->getPathItems()[0]->getResponses()[0]->getContent());
     }
 
@@ -82,14 +83,14 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
         $this->assertEquals('petId', $this->document->getPaths()[0]->getParameters()[0]->getName());
         $this->assertEquals('query', $this->document->getPaths()[0]->getParameters()[0]->getLocation());
         $this->assertEquals('ID of pet to return', $this->document->getPaths()[0]->getParameters()[0]->getDescription());
-        $this->assertEquals(true, $this->document->getPaths()[0]->getParameters()[0]->getRequired());
+        $this->assertTrue($this->document->getPaths()[0]->getParameters()[0]->getRequired());
         $this->assertEquals([
             'application/json' => [
                 'schema' => [
                     'id' => 0,
-                    'name' => 'doggie'
-                ]
-            ]
+                    'name' => 'doggie',
+                ],
+            ],
         ], $this->document->getPaths()[0]->getPathItems()[0]->getRequestBody()->getContent());
     }
 
@@ -97,7 +98,6 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
     {
         $this->assertEquals('Everything about your Pets', $this->document->getTags()[0]->getDescription());
         $this->assertEquals('Pet', $this->document->getTags()[0]->getName());
-
     }
 
     protected function createOpenApiBuilderObject(): OpenApiBuilderObject
@@ -107,7 +107,7 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
         $infoBuilderObject = new InfoBuilderObject();
         $infoBuilderObject->setTitle('Pet Store')
             ->setDescription('This is a Pet Store')
-            ->setVersion("1.0.0");
+            ->setVersion('1.0.0');
 
         $path = new PathBuilderObject();
         $path->setEndpoint('/pet');
@@ -122,7 +122,7 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
             ->setDescription('Success')
             ->setContent([
                 'id' => 0,
-                'name' => 'doggie'
+                'name' => 'doggie',
             ]);
 
         $requestBody = new RequestBodyBuilderObject();
@@ -130,7 +130,7 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
             ->setRequired(true)
             ->setContent([
                 'id' => 0,
-                'name' => 'doggie'
+                'name' => 'doggie',
             ]);
         $pathItem->setRequestBody($requestBody)
             ->addTag('pet');
@@ -155,8 +155,9 @@ class OpenApiDocumentBuilderTest extends KernelTestCase
         return $openApiBuilderObject;
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
+        parent::tearDown();
         unset($this->builder, $this->document);
     }
 }
