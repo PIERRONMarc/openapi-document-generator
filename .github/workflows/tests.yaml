@@ -40,7 +40,11 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
       # —— Setup database ———————————————————————————————————————————————————
       - name: Prepare database
-        run: make prepare-test
+        run: |
+          php bin/console doctrine:database:create --env=test
+          php bin/console doctrine:schema:update --force --env=test
+          php bin/console doctrine:fixtures:load -n --group=test --env=test
+
       # —— Run tests ————————————————————————————————————————————————————————————
       - name: Run all tests
         run: php bin/phpunit
