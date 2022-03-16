@@ -1,0 +1,69 @@
+@startuml openapi document generator entity relationship diagram
+
+' see https://plantuml.com/fr/ to generate a diagram from this file
+
+' Root of the OpenAPI document created by the user
+' https://swagger.io/specification/#openapi-object
+class OpenApiDocument {
+    {field} id: Int
+    {field} user:  ???
+    {field} title: String
+    {field} description: ?String
+}
+
+' https://swagger.io/specification/#paths-object
+class Path {
+    {field} id: Int
+    {field} endpoint: String
+}
+
+' https://swagger.io/specification/#path-item-object and https://swagger.io/specification/#operation-object combined for simplification
+class PathItem {
+    {field} id: Int
+    {field} summary: ?String
+    {field} description: ?String
+    {field} httpMethod: String
+}
+
+' https://swagger.io/specification/#tag-object
+class Tag {
+    {field} id: Int
+    {field} name: String
+    {field} description: ?String
+}
+
+' https://swagger.io/specification/#request-body-object
+class RequestBody {
+    {field} id: Int
+    {field} content: Json
+    {field} required: Boolean
+    {field} description: ?String
+}
+
+' https://swagger.io/specification/#parameter-object
+class Parameter {
+    {field} id: Int
+    {field} name: String
+    {field} description: ?String
+    {field} required: Boolean
+    {field} parameterLocation: String
+}
+
+' https://swagger.io/specification/#response-object
+class HttpResponse {
+    {field} id: Int
+    {field} httpStatusCode: Int
+    {field} description: ?String
+    {field} content: ?Json
+}
+
+OpenApiDocument "1..n" -- "1,1" Path /' OpenApiDocument has one or many Path, Path has one OpenAPIDocument '/
+Path "0..n" -- "1,1" Parameter /' Path has zero or many Parameter, Parameter has one Path '/
+PathItem "0..n" -- "1,1" Parameter /' PathItem has zero or many Parameter, Parameter has one PathItem '/
+PathItem "1..n" -- "1,1" HttpResponse /' PathItem has one or many HttpResponse, HttpResponse has one Pathitem '/
+Path "1..n" -- "1,1" PathItem /' Path has zero or many PathItem, PathItem has one Path '/
+RequestBody "1,1" -- "0,1" PathItem /' RequestBody has one PathItem, PathItem has zero or one PathItem '/
+Tag "1,1" -- "0..n" OpenApiDocument /' Tag has one OpenApiDocument, OpenApiDocument has zero or many Tag '/
+Tag "1..n" -- "0..n" PathItem /' Tag has one or many PathItem, PathItem has zero or many PathItem '/
+
+@enduml
