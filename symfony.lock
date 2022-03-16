@@ -193,6 +193,9 @@
     "http-interop/http-factory-guzzle": {
         "version": "1.2.0"
     },
+    "jaschilz/php-coverage-badger": {
+        "version": "2.0.0"
+    },
     "jean85/pretty-package-versions": {
         "version": "2.0.5"
     },

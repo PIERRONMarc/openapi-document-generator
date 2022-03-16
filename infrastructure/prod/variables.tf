@@ -6,45 +6,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   default     = "prod"
-  description = "This is the environment where the service is deployed. test, prod, or dev"
-}
-
-variable "app_env" {
-  type        = string
-  default     = "dev"
-  description = "Symfony's configuration environments"
-}
-variable "database_url" {
-  type = string
-  sensitive   = true
-}
-
-variable "sqs_transport_dsn" {
-  type = string
-  sensitive   = true
-}
-
-variable "sqs_dlq_transport_dsn" {
-  type        = string
-  description = "DSN of the failed queue"
-  sensitive   = true
-}
-
-variable "s3_key" {
-  type        = string
-  description = "Key of IAM user"
-  sensitive   = true
-}
-
-variable "s3_secret" {
-  type        = string
-  description = "Private key of IAM user"
-  sensitive   = true
-}
-
-variable "s3_version" {
-  type    = string
-  default = "latest"
+  description = "This is the environment where the service is deployed. qa, prod, or dev"
 }
 
 variable "db_username" {
@@ -59,7 +21,19 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "sentry_dsn" {
-  type = string
+variable "access_key" {
+  type        = string
+  description = "aws access key"
   sensitive   = true
+}
+
+variable "secret_key" {
+  type        = string
+  description = "aws secret key"
+  sensitive   = true
+}
+
+variable "sentry_dsn" {
+  type      = string
+  sensitive = true
 }

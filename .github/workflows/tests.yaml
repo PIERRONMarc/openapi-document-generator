@@ -1,8 +1,8 @@
-name: Run tests
+name: Tests
 on: [push]
 jobs:
   tests:
-    name: Run tests
+    name: Tests
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:

@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+  openapi-document-generator:
+    container_name: 'openapi-document-generator'
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - SQS_TRANSPORT_DSN=${SQS_TRANSPORT_DSN}
+      - SQS_DLQ_TRANSPORT_DSN=${SQS_DLQ_TRANSPORT_DSN}
+      - S3_KEY=${S3_KEY}
+      - S3_SECRET=${S3_SECRET}
+      - S3_REGION=${S3_REGION}
+      - S3_BUCKET=${S3_BUCKET}
+      - S3_VERSION=${S3_VERSION}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - APP_ENV=dev

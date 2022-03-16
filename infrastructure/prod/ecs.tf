@@ -35,15 +35,16 @@ resource "aws_ecs_task_definition" "openapi_document_generator" {
       memory    = 512
       essential = true,
       environment = [
-        { "name" : "APP_ENV", "value" : var.app_env },
-        { "name" : "DATABASE_URL", "value" : var.database_url },
-        { "name" : "SQS_TRANSPORT_DSN", "value" : var.sqs_transport_dsn },
-        { "name" : "SQS_DLQ_TRANSPORT_DSN", "value" : var.sqs_dlq_transport_dsn },
-        { "name" : "S3_KEY", "value" : var.s3_key },
-        { "name" : "S3_SECRET", "value" : var.s3_secret },
-        { "name" : "S3_VERSION", "value" : var.s3_version },
+        { "name" : "APP_ENV", "value" : "prod" },
+        { "name" : "DATABASE_URL", "value" : "mysql://${var.db_username}:${var.db_password}@${aws_db_instance.openapi_document_generator.endpoint}:${aws_db_instance.openapi_document_generator.port}/${aws_db_instance.openapi_document_generator.name}" },
+        { "name" : "SQS_TRANSPORT_DSN", "value" : "${aws_sqs_queue.openapi_document_generator_dlq.url}?access_key=${var.access_key}&secret_key=${var.secret_key}" },
+        { "name" : "SQS_DLQ_TRANSPORT_DSN", "value" : "${aws_sqs_queue.openapi_document_generator_dlq.url}?access_key=${var.access_key}&secret_key=${var.secret_key}" },
+        { "name" : "S3_KEY", "value" : var.access_key },
+        { "name" : "S3_SECRET", "value" : var.secret_key },
+        { "name" : "S3_VERSION", "value" : "latest" },
         { "name" : "S3_REGION", "value" : aws_s3_bucket.openapi_document_generator.region },
         { "name" : "S3_BUCKET", "value" : aws_s3_bucket.openapi_document_generator.bucket },
+        { "name" : "SENTRY_DSN", "value" : var.sentry_dsn },
       ]
     },
   ])
